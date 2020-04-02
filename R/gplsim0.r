@@ -22,10 +22,13 @@ generate_data <- function(n,true.alpha=c(1, 1, 1)/sqrt(3)){
 si <- function(alpha,y,x,z,opt=TRUE,k=10,fam, fx=FALSE) {
   ## Fit single index model using gam call. Return ML is opt==TRUE
   ## and fitted gam with theta added otherwise...
-  theta <- c(1, alpha)
-  theta <- theta/sqrt(sum(theta^2))
+  
+  #reparameterise theta
+  alpha_add1 <- c(1, alpha)
+  theta <- alpha_add1/sqrt(sum(alpha_add1^2))
+  
   a <- x%*%theta
-  b <- gam(y~s(a,fx=fx,k=k)+z-1,family=fam,method="ML")
+  b <- mgcv::gam(y~s(a,fx=fx,k=k)+z-1,family=fam,method="ML")
   if (opt) return(b$gcv.ubre) else {
     b$theta <- theta  ## add theta
     return(b)

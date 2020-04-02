@@ -21,15 +21,34 @@ require(mgcv)
 require(quantreg)
 require(splines)
 
+gplsimPs <- function(Y=Y,X=X,Z=Z,family=binomial,penalty=TRUE,user.init=FALSE){
+  p <- dim(X)[2]
+  if(user.init){
+    if(length(user.init)!=(p-1)){
+      stop("user.init length must be p-1")
+    }else{
+      init.alpha <- user.init
+    }
+  }else{
+    er_np <- optim(rep(0,p-1), si, y=Y,x=X,z=Z, fam=family, hessian=TRUE, fx=TRUE)
+    init.alpha <- er_np$par
+  }
+  
+  er <- optim(init.alpha,si,y=Y,x=X,z=Z,fam=family,hessian=TRUE,fx=!penalty)
+  b <- si(er_np$par,y=y,X,Z, fam=family, opt=FALSE) 
+  return(b)
+}
+
+result <- gplsimPs(y,X,Z,user.init=c(0,0))
 
 
 #binomial
 alpha0 <- c(0,0)
 ## get initial alpha, using no penalization...
-er <- optim(alpha0, si, y=y,x=X,z=Z, fam=binomial, hessian=TRUE, fx=TRUE,k=5)
+er_np <- optim(alpha0, si, y=y,x=X,z=Z, fam=binomial, hessian=TRUE, fx=TRUE,k=5)
 ## now get alpha with smoothing parameter selection...
-er <- optim(er$par,si,y=y,x=X,z=Z,fam=binomial,hessian=TRUE,k=10)
-b <- si(er$par,y=y,X,Z, fam=binomial, opt=FALSE) ## best fit model
+
+b <- si(er_np$par,y=y,X,Z, fam=binomial, opt=FALSE) ## best fit model
 #b
 b$theta
 b$coefficients[1:2]
