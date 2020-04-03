@@ -21,25 +21,11 @@ require(mgcv)
 require(quantreg)
 require(splines)
 
-gplsimPs <- function(Y=Y,X=X,Z=Z,family=binomial,penalty=TRUE,user.init=FALSE){
-  p <- dim(X)[2]
-  if(user.init){
-    if(length(user.init)!=(p-1)){
-      stop("user.init length must be p-1")
-    }else{
-      init.alpha <- user.init
-    }
-  }else{
-    er_np <- optim(rep(0,p-1), si, y=Y,x=X,z=Z, fam=family, hessian=TRUE, fx=TRUE)
-    init.alpha <- er_np$par
-  }
-  
-  er <- optim(init.alpha,si,y=Y,x=X,z=Z,fam=family,hessian=TRUE,fx=!penalty)
-  b <- si(er_np$par,y=y,X,Z, fam=family, opt=FALSE) 
-  return(b)
-}
-
 result <- gplsimPs(y,X,Z,user.init=c(0,0))
+result$theta
+result$coefficients
+summary(result)
+
 
 
 #binomial
