@@ -1,17 +1,19 @@
-generate_data <- function(n,true.alpha=c(1, 1, 1)/sqrt(3)){
+generate_data <- function(n,true.alpha=c(1, 1, 1)/sqrt(3),binary=TRUE){
   X = matrix(runif(length(true.alpha)*n), ncol=length(true.alpha))
   U = X%*%true.alpha
 
-  #Z<-rep(c(0,1),n/2)
   Z<-rnorm(n)
   q <- NULL
-  py <- NULL
+  y <- NULL
   for(i in 1:n){
     q[i] = sin( (U[i]-0.3912)*pi/(1.3409 -0.3912) ) + 0.3*Z[i]
-    py[i] = exp(q[i])/(1+exp(q[i]))
+    if(binary){
+      py = exp(q[i])/(1+exp(q[i]))
+      y[i] = rbinom(1, size=1, prob=py)
+    }else{
+      y[i] = q[i] + rnorm(1)
+    }
   }
-
-  y= rbinom(n, size=1, prob=py)
   return(list("X" = X, "Y" = y,"Z"=Z))
 }
 

@@ -8,49 +8,31 @@ m=1
 true.alpha = c(1, 1, 1)/sqrt(3)
 
 
-# Generating data
-data <- generate_data(n,true.alpha=true.alpha)
+# Generating data (binary)
+data <- generate_data(n,true.alpha=true.alpha,binary=TRUE)
 y=data$Y       # binary response
 X=data$X   # single index term ;
 Z=data$Z       # partially linear term ;
 
+result <- gplsimPs(y,X,Z,user.init=c(0,0),family = binomial)
+result$theta
+result$coefficients
+summary(result)
 
+# Generating data (gaussian)
+data <- generate_data(n,true.alpha=true.alpha,binary=FALSE)
+y=data$Y       # binary response
+X=data$X   # single index term ;
+Z=data$Z       # partially linear term ;
 
-
-require(mgcv)
-require(quantreg)
-require(splines)
-
-result <- gplsimPs(y,X,Z,user.init=c(0,0))
+result <- gplsimPs(y,X,Z,user.init=c(0,0),family = gaussian)
 result$theta
 result$coefficients
 summary(result)
 
 
 
-#binomial
-alpha0 <- c(0,0)
-## get initial alpha, using no penalization...
-er_np <- optim(alpha0, si, y=y,x=X,z=Z, fam=binomial, hessian=TRUE, fx=TRUE,k=5)
-## now get alpha with smoothing parameter selection...
 
-b <- si(er_np$par,y=y,X,Z, fam=binomial, opt=FALSE) ## best fit model
-#b
-b$theta
-b$coefficients[1:2]
-
-
-
-#normal
-alpha0 <- c(1,1)
-## get initial alpha, using no penalization...
-er <- optim(alpha0, si, y=y2,x=X,z=Z, fam=gaussian, hessian=TRUE, fx=TRUE,k=5)
-## now get alpha with smoothing parameter selection...
-er <- optim(er$par,si,y=y2,x=X,z=Z,fam=gaussian,hessian=TRUE,k=10)
-b <- si(er$par,y=y2,X,Z, fam=gaussian, opt=FALSE) ## best fit model
-#b
-b$theta
-b$coefficients[1]
 
 
 
