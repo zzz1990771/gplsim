@@ -59,7 +59,7 @@ true.alpha = c(1, 1, 1)/sqrt(3)
 # You may use your data instead.
 data <- generate_data(n,true.alpha=true.alpha,binary=TRUE)
 y=data$Y       # binary response
-X=data$X   # single index term ;
+X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
 # Fit the generalised partially linear single-index models
@@ -79,13 +79,33 @@ summary(result)
 # This function generate a plain sin bump model with gaussian response.
 data <- generate_data(n,true.alpha=true.alpha,binary=FALSE)
 y=data$Y       # continous response
-X=data$X   # single index term ;
+X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
 result <- gplsim(y,X,Z,user.init=c(0,0),family = gaussian)
 result$theta
 result$coefficients
 summary(result)
+
+# A real data example
+data(air)
+y=air$ozone               # response
+X=as.matrix(air[,2:3])    # single index term ;
+Z=air[,4]                 # partially linear term ;
+
+result <- gplsim(y,X,Z,user.init=c(0),family = gaussian)
+result$theta
+result$coefficients
+summary(result)
+
+# Or you can try without user defined initials
+result <- gplsim(y,X,Z,family = gaussian)
+result$theta
+result$coefficients
+summary(result)
+
+# to know more about air data
+?air
 
 
 }
