@@ -50,18 +50,21 @@ si2 <- function(alpha,y,x,z,opt=TRUE,k=10,fam, fx=FALSE) {
 
 gplsim<- gplsimPs <- function(Y=Y,X=X,Z=Z,family=binomial,penalty=TRUE,user.init=FALSE){
   p <- dim(X)[2]
-  if(identical(FALSE,user.init)){
+  #op_method <- ifelse(p>2,"Nelder-Mead","Brent")
+  op_method <- "Nelder-Mead"
+  if(p<2){stop("SIM predictos must no less than two")}
+  if(!identical(FALSE,user.init)){
     if(length(user.init)!=(p-1)){
       stop("user.init length must be p-1")
     }else{
       init.alpha <- user.init
     }
   }else{
-    er_np <- optim(rep(0,p-1), si, y=Y,x=X,z=Z, fam=family, hessian=TRUE, fx=TRUE)
+    er_np <- suppressWarnings(optim(rep(0,p-1), si, y=Y,x=X,z=Z, fam=family, hessian=TRUE, fx=TRUE, method=op_method))
     init.alpha <- er_np$par
   }
 
-  er <- optim(init.alpha,si,y=Y,x=X,z=Z,fam=family,hessian=TRUE,fx=!penalty)
-  b <- si(er_np$par,y=y,X,Z, fam=family, opt=FALSE)
+  er <- suppressWarnings(optim(init.alpha,si,y=Y,x=X,z=Z,fam=family,hessian=TRUE,fx=!penalty, method=op_method))
+  b <- si(er$par,y=y,X,Z, fam=family, opt=FALSE)
   return(b)
 }

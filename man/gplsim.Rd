@@ -32,6 +32,9 @@ is \code{binomial}.}
 }
 \references{
 Yu, Yan, Chaojiang Wu, and Yuankun Zhang. (2017). Penalised Spline Estimation for Generalised Partially Linear Single-Index Models. \emph{Statistics and Computing}. https://dl.acm.org/doi/abs/10.1007/s11222-016-9639-0
+
+Yu, Yan, and David Ruppert. (2002). Penalized Spline Estimation for Partially Linear Single-Index Models. \emph{Journal of the American Statistical Association} 97 (460): 1042-54.https://www.jstor.org/stable/3085829
+
 }
 \author{
 Zu, Tianhai.
@@ -75,7 +78,7 @@ summary(result)
 # Gaussian case
 # This function generate a plain sin bump model with gaussian response.
 data <- generate_data(n,true.alpha=true.alpha,binary=FALSE)
-y=data$Y       # binary response
+y=data$Y       # continous response
 X=data$X   # single index term ;
 Z=data$Z       # partially linear term ;
 
