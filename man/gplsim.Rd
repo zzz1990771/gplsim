@@ -20,7 +20,7 @@ gplsim(Y, X, Z, family=binomial, penalty=TRUE, user.init=FALSE)
 \code{variance} functions. Families supported are \code{binomial}, \code{gaussian}. The default family
 is \code{binomial}.}
   \item{penalty}{Whether use penalised splines or un-penalised splines to fit the model. The default is TRUE.}
-  \item{user.init}{User provided initial value for reparameterized theta. Note that the length of initial values should be p-1, instead of p.}
+  \item{user.init}{User provided initial value for reparameterized theta.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -51,7 +51,7 @@ Yu, Yan.
 }
 \examples{
 # parameter settings
-n=10000
+n=1000
 true.alpha = c(1, 1, 1)/sqrt(3)
 
 # Generating data (binary case)
@@ -63,7 +63,7 @@ X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
 # Fit the generalised partially linear single-index models
-result <- gplsim(y,X,Z,user.init=c(0,0),family = binomial)
+result <- gplsim(y,X,Z,user.init=c(1,0,0),family = binomial)
 
 # Estimation of Theta
 result$theta
@@ -82,18 +82,23 @@ y=data$Y       # continous response
 X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
-result <- gplsim(y,X,Z,user.init=c(0,0),family = gaussian)
+result <- gplsim(y,X,Z,user.init=FALSE,family = gaussian)
 result$theta
 result$coefficients
 summary(result)
+#plot the estimated single index function curve
+plot.si(result)
+par(new=T)
+plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
+
 
 # A real data example
 data(air)
 y=air$ozone               # response
-X=as.matrix(air[,2:3])    # single index term ;
-Z=air[,4]                 # partially linear term ;
+X=as.matrix(air[,3:4])    # single index term ;
+Z=air[,2]                 # partially linear term ;
 
-result <- gplsim(y,X,Z,user.init=c(0),family = gaussian)
+result <- gplsim(y,X,Z,user.init=c(1,1),family = gaussian)
 result$theta
 result$coefficients
 summary(result)

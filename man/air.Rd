@@ -12,9 +12,10 @@ This dataset contains four variables: The concentration of the air pollutant ozo
   A data frame with 111 observations on the following 4 variables.
   \describe{
     \item{\code{ozone}}{a numeric vector in cube root ppb}
-    \item{\code{wind_speed}}{a numeric vector in mph}
-    \item{\code{temperature}}{a numeric vector in degrees F}
     \item{\code{radiation}}{a numeric vector in langleys}
+    \item{\code{temperature}}{a numeric vector in degrees F}
+    \item{\code{wind_speed}}{a numeric vector in mph}
+    
   }
 }
 \details{
@@ -29,8 +30,8 @@ need to confirm this
 \examples{
 data(air)
 y=air$ozone               # response
-X=as.matrix(air[,2:3])    # single index term ;
-Z=air[,4]                 # partially linear term ;
+X=as.matrix(air[,3:4])    # single index term ;
+Z=air[,2]                 # partially linear term ;
 
 result <- gplsim(y,X,Z,user.init=c(0),family = gaussian)
 result$theta
