@@ -1,7 +1,7 @@
 Package: gplsim
 Type: Package
 Title: Penalised spline estimation for generalised partially linear single-index models
-Version: 0.1.0
+Version: 0.2.0
 Author: Tianhai Zu, Yan Yu.
 Maintainer: Tianhai Zu <zuti@mail.uc.edu>
 Description: This package employs penalised spline (P-spline) to estimate generalised 

@@ -226,7 +226,7 @@ plsiml <- function(y,x,z=NULL,degree=3,nknots=12,alpha0=NULL,maxiter=2){
 
     #options = optimset('LargeScale','on','MaxFunEvals','200','TolFun',1e-6);
     #plresim(param,x=x,y=y,z=z,degree=degree,nknots=nknots,lambda=lambda)
-    nls.fit <- nls.lm(param,fn = plresim,x=x,y=y,z=z,degree=degree,nknots=nknots,lambda=lambda,control = list(maxiter = 500))
+    nls.fit <- minpack.lm::nls.lm(param,fn = plresim,x=x,y=y,z=z,degree=degree,nknots=nknots,lambda=lambda,control = list(maxiter = 500))
     param <- nls.fit$par
     # alpha is not normalized by lsqnonlin
 
