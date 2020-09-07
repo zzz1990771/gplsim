@@ -15,7 +15,7 @@ This dataset contains four variables: The concentration of the air pollutant ozo
     \item{\code{radiation}}{a numeric vector in langleys}
     \item{\code{temperature}}{a numeric vector in degrees F}
     \item{\code{wind_speed}}{a numeric vector in mph}
-    
+
   }
 }
 \details{
@@ -33,13 +33,13 @@ y=air$ozone               # response
 X=as.matrix(air[,3:4])    # single index term ;
 Z=air[,2]                 # partially linear term ;
 
-result <- gplsim(y,X,Z,user.init=c(0),family = gaussian)
+result <- gplsim(y,X,Z=Z,family = gaussian,bs="tr",k=10)
 result$theta
 result$coefficients
 summary(result)
 
-# Or you can try without user defined initials
-result <- gplsim(y,X,Z,family = gaussian)
+# Or you can try different spline basis
+result <- gplsim(y,X,Z=Z,family = gaussian,bs="tp",k=10)
 result$theta
 result$coefficients
 summary(result)

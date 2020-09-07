@@ -6,10 +6,12 @@
 Function to fit generalised partially linear single-index models via penalised splines
 }
 \description{
-This function employs penalised spline (P-spline) to estimate generalised partially linear singleindexmodels,which extend the generalised linear models to include nonlinear effect for some predictors.
+This function employs penalised spline (P-spline) to estimate generalised partially linear single index models, which extend the generalised linear models to include nonlinear effect for some predictors.
 }
 \usage{
-gplsim(Y, X, Z, family=binomial, penalty=TRUE, user.init=FALSE)
+gplsim(Y, X, Z, family = binomial, penalty = TRUE,
+penalty_type = "L2", scale = -1,smoothing_select = "GCV.Cp",
+profile = TRUE, bs="ps", user.init=NULL)
 }
 
 \arguments{
@@ -20,12 +22,18 @@ gplsim(Y, X, Z, family=binomial, penalty=TRUE, user.init=FALSE)
 \code{variance} functions. Families supported are \code{binomial}, \code{gaussian}. The default family
 is \code{binomial}.}
   \item{penalty}{Whether use penalised splines or un-penalised splines to fit the model. The default is TRUE.}
-  \item{user.init}{User provided initial value for reparameterized theta.}
+  \item{penalty_type}{The optional argument penalty_type is a character variable, which specifies the type of penalty used in the penalized splines estimation. The default penalty type is {L}_{2} penalty, while {L}_{1} is also supported.}
+  \item{scale}{The optional argument scale is a numeric indicator with a default value set to -1. Any negative value including -1 indicates that the scale of response distribution is unknown, thus need to be estimated. Another option is 0 signaling scale of 1 for Poisson and binomial distribution and unknown for others. Any positive value will be taken as the known scale parameter.}
+  \item{smoothing_select}{The optional argument smoothing_select is another character variable that specifies the criterion used in the selection of a smoothing parameter. The supported criteria include ``GCV.Cp'',``GACV.Cp'', ``ML'',``P-ML'', ``P-REML'' and ``REML'', while the default criterion is ``GCV.Cp''.}
+  \item{profile}{ The optional argument profile is a logical variable that indicates whether the algorithm with profile likelihood or algorithm with NLS procedure should be used. The default algorithm is set to algorithm with profile likelihood.}
+  \item{bs}{The optional argument bs is a character variable that specifies the spline basis in the estimation of unknown univariate function of single index. The default has been set to ``ps''(P-splines with B-spline basis) while other choices are ``tr'' (truncated power basis), ``tp'' (Thin plate regression splines) and others.}
+  \item{user.init}{The last optional argument user.init is a numeric vector of the same length as the dimensionality of single index predictors. The users can use this argument to pass in any appropriate user-defined initial single-index coefficients based on prior information or domain knowledge. The default value is NULL, which instructs the function to estimate the initial single index coefﬁcients by a generalized linear model.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
+The function gplsim returns an object class of gplsim, which extends the gam object and glm object.
 \item{theta}{Estimation of Theta}
 \item{coefficients}{the coefficients of the fitted model. Parametric coefficients are first, followed by coefficients for each spline term in turn.}
 \item{...}{see GAM object}
@@ -52,18 +60,18 @@ Yu, Yan.
 \examples{
 # parameter settings
 n=1000
-true.alpha = c(1, 1, 1)/sqrt(3)
+true.theta = c(1, 1, 1)/sqrt(3)
 
 # Generating data (binary case)
 # This function generates a sin bump model as in Yu et al. (2007).
 # You may use your data instead.
-data <- generate_data(n,true.alpha=true.alpha,binary=TRUE)
+data <- generate_data(n,true.theta=true.theta,family="Binomial")
 y=data$Y       # binary response
 X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
 # Fit the generalised partially linear single-index models
-result <- gplsim(y,X,Z,user.init=c(1,0,0),family = binomial)
+result <- gplsim(y,X,Z,family = binomial)
 
 # Estimation of Theta
 result$theta
@@ -75,21 +83,29 @@ result$coefficients
 summary(result)
 
 
+#plot the estimated single index function curve
+plot.si(result)
+#par(new=T)
+#plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
+
+
 # Gaussian case
 # This function generate a plain sin bump model with gaussian response.
-data <- generate_data(n,true.alpha=true.alpha,binary=FALSE)
+data <- generate_data(n,true.theta=true.theta,family="Gaussian")
 y=data$Y       # continous response
 X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
-result <- gplsim(y,X,Z,user.init=FALSE,family = gaussian)
+result <- gplsim(y,X,Z,family = gaussian)
 result$theta
 result$coefficients
 summary(result)
+
+
 #plot the estimated single index function curve
 plot.si(result)
-par(new=T)
-plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
+#par(new=T)
+#plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
 
 
 # A real data example
@@ -98,20 +114,19 @@ y=air$ozone               # response
 X=as.matrix(air[,3:4])    # single index term ;
 Z=air[,2]                 # partially linear term ;
 
-result <- gplsim(y,X,Z,user.init=c(1,1),family = gaussian)
+result <- gplsim(y,X,Z=Z,family = gaussian,bs="tr",k=10)
 result$theta
 result$coefficients
 summary(result)
 
-# Or you can try without user defined initials
-result <- gplsim(y,X,Z,family = gaussian)
+# Or you can try different spline basis
+result <- gplsim(y,X,Z=Z,family = gaussian,bs="tp",k=10)
 result$theta
 result$coefficients
 summary(result)
 
 # to know more about air data
 ?air
-
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
