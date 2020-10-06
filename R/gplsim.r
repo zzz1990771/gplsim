@@ -1,6 +1,6 @@
 ## Data generation function for simulation and demonstration
 ## A sine-bump setting has been employed.
-generate_data <- function(n,true.theta=c(1, 1, 1)/sqrt(3),family="Gaussian",ncopy=1){
+generate_data <- function(n,true.theta=c(1, 1, 1)/sqrt(3),family="gaussian",ncopy=1){
   #parameter setting
   sigma = 0.1
   c1 = 0.3912
@@ -15,12 +15,12 @@ generate_data <- function(n,true.theta=c(1, 1, 1)/sqrt(3),family="Gaussian",ncop
   Z <- 1 - c(1:n)%%2
   q = fU + rho*Z
 
-  if(family=="Gaussian"){
+  if(family=="gaussian"){
     y = q + rnorm(length(q),0,sigma)
-  }else if(family=="Binomial"){
+  }else if(family=="binomial"){
     py = exp(q)/(1+exp(q))
     y = rbinom(length(q), size=1, prob=py)
-  }else if(family=="Poisson"){
+  }else if(family=="poisson"){
     py = exp(q)
     y = rpois(length(q),py)
   }
