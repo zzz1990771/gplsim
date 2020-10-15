@@ -61,23 +61,8 @@ poisson_coefs<- foreach(i=1:M, .combine=rbind,.packages = c("splines","mgcv","gp
   c(result$theta,result$gamma)
 }
 
-
 apply(poisson_coefs,2,mean)
 apply(poisson_coefs,2,sd)
-
-
-
-
-
-
 stopCluster(cl)
 
-
-# Gaussian case for add percentile vurce
-# parameter settings
-M=200
-gaussian_models <- lsit()
-n=500
-true.theta = c(1, 1, 1)/sqrt(3)
-# This function generate a plain sin bump model with gaussian response.
 
