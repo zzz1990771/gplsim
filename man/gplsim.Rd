@@ -9,7 +9,7 @@ Function to fit generalised partially linear single-index models via penalised s
 This function employs penalised spline (P-spline) to estimate generalised partially linear single index models, which extend the generalised linear models to include nonlinear effect for some predictors.
 }
 \usage{
-gplsim(Y, X, Z, family = binomial, penalty = TRUE,
+gplsim(Y, X, Z, family = gaussian, penalty = TRUE,
 penalty_type = "L2", scale = -1,smoothing_select = "GCV.Cp",
 profile = TRUE, bs="ps", user.init=NULL)
 }
@@ -20,7 +20,7 @@ profile = TRUE, bs="ps", user.init=NULL)
   \item{Z}{Partially linear covariates.}
   \item{family}{A \code{family} object: a list of functions and expressions for defining \code{link} and
 \code{variance} functions. Families supported are \code{binomial}, \code{gaussian}. The default family
-is \code{binomial}.}
+is \code{gaussian}.}
   \item{penalty}{Whether use penalised splines or un-penalised splines to fit the model. The default is TRUE.}
   \item{penalty_type}{The optional argument penalty_type is a character variable, which specifies the type of penalty used in the penalized splines estimation. The default penalty type is {L}_{2} penalty, while {L}_{1} is also supported.}
   \item{scale}{The optional argument scale is a numeric indicator with a default value set to -1. Any negative value including -1 indicates that the scale of response distribution is unknown, thus need to be estimated. Another option is 0 signaling scale of 1 for Poisson and binomial distribution and unknown for others. Any positive value will be taken as the known scale parameter.}

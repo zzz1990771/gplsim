@@ -16,20 +16,17 @@ generate_data <- function(n,true.theta=c(1, 1, 1)/sqrt(3),family="gaussian",ncop
   q = fU + rho*Z
 
   if(family=="gaussian"){
-    y = q + rnorm(length(q),0,sigma)
+    ylist <- lapply(vector(mode = "list", length = ncopy),function(x){q + rnorm(length(q),0,sigma)})
   }else if(family=="binomial"){
     py = exp(q)/(1+exp(q))
-    y = rbinom(length(q), size=1, prob=py)
+    ylist <- lapply(vector(mode = "list", length = ncopy),function(x){rbinom(length(q), size=1, prob=py)})
   }else if(family=="poisson"){
     py = exp(q)
-    y = rpois(length(q),py)
+    ylist <- lapply(vector(mode = "list", length = ncopy),function(x){rpois(length(q),py)})
   }
-  if(ncopy>1){
-    ylist <- lapply(vector(mode = "list", length = ncopy),function(x){q + rnorm(length(q),0,sigma)})
-    return(list("X" = X, "Y" = ylist,"Z"=Z,"single_index_values"=fU))
-  }else{
-    return(list("X" = X, "Y" = y,"Z"=Z,"single_index_values"=fU))
-  }
+  if(ncopy==1){ylist = ylist[[1]]}
+  return(list("X" = X, "Y" = ylist,"Z"=Z,"single_index_values"=fU))
+  
 }
 
 #internal supporting function: single index function
@@ -181,15 +178,14 @@ print.summary.gplsim <- function(x, digits = max(5, getOption("digits") - 3),
 }
 
 # function dedicated to simulation
-add_sim_bound <- function(data){
+add_sim_bound <- function(data,family = gaussian){
   offset_fit_matrix <- matrix(0, M, n)
   for (i in 1:M){
     y=(data$Y)[[i]]       # continous response
     X=data$X       # single index term ;
     Z=data$Z       # partially linear term ;
-    result <- gplsim(y,X,Z,user.init=NULL,family = gaussian)
-    model_obj <- result
-    offset_fit <- (model_obj$linear.predictors-model_obj$gamma%*%t(model_obj$model$z))
+    model_obj <- gplsim(y,X,Z,user.init=NULL,family = family)
+    offset_fit <- family$linkinv(model_obj$linear.predictors-model_obj$gamma%*%t(model_obj$model$z))
     offset_fit_matrix[i,] <-  offset_fit
   }
   quan2.5=apply(offset_fit_matrix, 2, quantile, prob=0.025)
