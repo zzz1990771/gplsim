@@ -4,7 +4,7 @@
 #' @param n sample size
 #' @param true.theta true single-index coefficients,
 #' default is c(1,1,1)/sqrt(3) for setting 1 and c(1,2)/sqrt(5) for other settings
-#' @param family chose from "guassian", "binomial" or "poisson".
+#' @param family chose from "gaussian", "binomial" or "poisson".
 #' @param ncopy generates multiple copies of data for Monte Carlo simulations
 #'
 #' @return X single index predictors
@@ -79,10 +79,10 @@ si <- function(alpha,y,x,z,opt=TRUE,k=13,smooth_selection,fam,bs="ps", fx=FALSE,
 
 }
 
-#' Function to fit generalised partially linear single-index models via penalised splines
+#' Function to fit generalized partially linear single-index models via penalized splines
 #'
-#' This function employs penalised spline (P-spline) to estimate generalised
-#' partially linear single index models, which extend the generalised linear
+#' This function employs penalized spline (P-spline) to estimate generalized
+#' partially linear single index models, which extend the generalized linear
 #' models to include nonlinear effect for some predictors.
 #'
 #' @param Y Response variable, should be a vector.
@@ -92,12 +92,12 @@ si <- function(alpha,y,x,z,opt=TRUE,k=13,smooth_selection,fam,bs="ps", fx=FALSE,
 #' for defining \code{link} and \code{variance} functions.
 #' Families supported are \code{binomial}, \code{gaussian}.
 #' The default family is \code{gaussian}.
-#' @param penalty Whether use penalised splines or un-penalised splines to fit the model. The default is TRUE.
+#' @param penalty Whether use penalized splines or un-penalized splines to fit the model. The default is TRUE.
 #' @param penalty_type The optional argument penalty_type is a character variable, which specifies the type of penalty used in the penalized splines estimation. The default penalty type is {L}_{2} penalty, while {L}_{1} is also supported.
 #' @param scale The optional argument scale is a numeric indicator with a default value set to -1. Any negative value including -1 indicates that the scale of response distribution is unknown, thus need to be estimated. Another option is 0 signaling scale of 1 for Poisson and binomial distribution and unknown for others. Any positive value will be taken as the known scale parameter.
 #' @param smooth_selection The optional argument smooth_selection is another character variable that specifies the criterion used in the selection of a smoothing parameter. The supported criteria include "GCV.Cp","GACV.Cp", "ML","P-ML", "P-REML" and "REML", while the default criterion is "GCV.Cp".
 #' @param profile profile is a logical variable that indicates whether the algorithm with profile likelihood or algorithm with NLS procedure should be used. The default algorithm is set to algorithm with profile likelihood.
-#' @param bs bs is a character variable that specifies the spline basis in the estimation of unknown univariate function of single index. Default is P-slines.
+#' @param bs bs is a character variable that specifies the spline basis in the estimation of unknown univariate function of single index. Default is P-splines.
 #' @param user.init The user.init is a numeric vector of the same length as the dimensionality of single index predictors. The users can use this argument to pass in any appropriate user-defined initial single-index coefficients based on prior information or domain knowledge. The default value is NULL
 #' @param k k is the the dimension of the basis used to represent the smooth term. The default is set at 13.
 #' 
@@ -117,7 +117,7 @@ si <- function(alpha,y,x,z,opt=TRUE,k=13,smooth_selection,fam,bs="ps", fx=FALSE,
 #' X=data$X       # single index term ;
 #' Z=data$Z       # partially linear term ;
 #'
-#' # Fit the generalised partially linear single-index models
+#' # Fit the generalized partially linear single-index models
 #' result <- gplsim(y,X,Z,family = binomial)
 #'
 #' # Estimation of Theta

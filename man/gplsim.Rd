@@ -2,7 +2,7 @@
 % Please edit documentation in R/gplsim.r
 \name{gplsim}
 \alias{gplsim}
-\title{Function to fit generalised partially linear single-index models via penalised splines}
+\title{Function to fit generalized partially linear single-index models via penalized splines}
 \usage{
 gplsim(
   Y = Y,
@@ -31,7 +31,7 @@ for defining \code{link} and \code{variance} functions.
 Families supported are \code{binomial}, \code{gaussian}.
 The default family is \code{gaussian}.}
 
-\item{penalty}{Whether use penalised splines or un-penalised splines to fit the model. The default is TRUE.}
+\item{penalty}{Whether use penalized splines or un-penalized splines to fit the model. The default is TRUE.}
 
 \item{penalty_type}{The optional argument penalty_type is a character variable, which specifies the type of penalty used in the penalized splines estimation. The default penalty type is {L}_{2} penalty, while {L}_{1} is also supported.}
 
@@ -41,7 +41,7 @@ The default family is \code{gaussian}.}
 
 \item{profile}{profile is a logical variable that indicates whether the algorithm with profile likelihood or algorithm with NLS procedure should be used. The default algorithm is set to algorithm with profile likelihood.}
 
-\item{bs}{bs is a character variable that specifies the spline basis in the estimation of unknown univariate function of single index. Default is P-slines.}
+\item{bs}{bs is a character variable that specifies the spline basis in the estimation of unknown univariate function of single index. Default is P-splines.}
 
 \item{user.init}{The user.init is a numeric vector of the same length as the dimensionality of single index predictors. The users can use this argument to pass in any appropriate user-defined initial single-index coefficients based on prior information or domain knowledge. The default value is NULL}
 
@@ -55,8 +55,8 @@ coefficients  the coefficients of the fitted model. Parametric coefficients are 
 ... See GAM object
 }
 \description{
-This function employs penalised spline (P-spline) to estimate generalised
-partially linear single index models, which extend the generalised linear
+This function employs penalized spline (P-spline) to estimate generalized
+partially linear single index models, which extend the generalized linear
 models to include nonlinear effect for some predictors.
 }
 \examples{
@@ -71,7 +71,7 @@ y=data$Y       # binary response
 X=data$X       # single index term ;
 Z=data$Z       # partially linear term ;
 
-# Fit the generalised partially linear single-index models
+# Fit the generalized partially linear single-index models
 result <- gplsim(y,X,Z,family = binomial)
 
 # Estimation of Theta

@@ -18,7 +18,7 @@ generate_data(
 \item{true.theta}{true single-index coefficients,
 default is c(1,1,1)/sqrt(3) for setting 1 and c(1,2)/sqrt(5) for other settings}
 
-\item{family}{chose from "guassian", "binomial" or "poisson".}
+\item{family}{chose from "gaussian", "binomial" or "poisson".}
 
 \item{ncopy}{generates multiple copies of data for Monte Carlo simulations}
 }
