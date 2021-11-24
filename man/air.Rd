@@ -18,22 +18,13 @@ This dataset contains four variables: The concentration of the air pollutant ozo
 
   }
 }
-\details{
-
-}
-\source{
-need to confirm this
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
 \examples{
 data(air)
 y=air$ozone               # response
 X=as.matrix(air[,3:4])    # single index term ;
 Z=air[,2]                 # partially linear term ;
 
-result <- gplsim(y,X,Z=Z,family = gaussian,bs="tr",k=10)
+result <- gplsim(y,X,Z=Z,family = gaussian,k=10)
 result$theta
 result$coefficients
 summary(result)
