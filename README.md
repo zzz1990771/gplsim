@@ -47,9 +47,7 @@ result$coefficients
 summary(result)
 
 #plot the estimated single index function curve
-plot.si(result)
-#par(new=T)
-#plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
+plot_si(result)
 
 
 # Gaussian case
@@ -66,9 +64,9 @@ summary(result)
 
 
 #plot the estimated single index function curve
-plot.si(result)
+plot_si(result)
 #par(new=T)
-#plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
+#plot_si(result,index=Z,xaxt="n", yaxt="n",col="red")
 
 # A real data example
 data(air)

@@ -4,7 +4,7 @@
 \alias{smooth.construct.tr.smooth.spec}
 \title{supporting function to make tr smooth}
 \usage{
-\method{smooth.construct}{tr.smooth.spec}(object, data, knots)
+smooth.construct.tr.smooth.spec(object, data, knots)
 }
 \arguments{
 \item{object}{smooth object for gam class}

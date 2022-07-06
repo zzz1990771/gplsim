@@ -61,35 +61,8 @@ models to include nonlinear effect for some predictors.
 }
 \examples{
 # parameter settings
-n=1000
+n=200
 true.theta = c(1, 1, 1)/sqrt(3)
-# Generating data (binary case)
-# This function generates a sin bump model as in Yu et al. (2007).
-# You may use your data instead.
-data <- generate_data(n,true.theta=true.theta,family="binomial")
-y=data$Y       # binary response
-X=data$X       # single index term ;
-Z=data$Z       # partially linear term ;
-
-# Fit the generalized partially linear single-index models
-result <- gplsim(y,X,Z,family = binomial)
-
-# Estimation of Theta
-result$theta
-
-# The coefficients of the fitted model. 
-# Parametric coefficients are first, followed by coefficients for each spline term in turn.
-result$coefficients
-
-# summary of the fitted model
-summary(result)
-
-#plot the estimated single index function curve
-plot.si(result)
-#par(new=T)
-#plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
-
-
 # Gaussian case
 # This function generate a plain sin bump model with gaussian response.
 data <- generate_data(n,true.theta=true.theta,family="gaussian")
@@ -104,27 +77,5 @@ summary(result)
 
 
 #plot the estimated single index function curve
-plot.si(result)
-#par(new=T)
-#plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
-
-# A real data example
-data(air)
-y=air$ozone               # response
-X=as.matrix(air[,3:4])    # single index term ;
-Z=air[,2]                 # partially linear term ;
-
-result <- gplsim(y,X,Z=Z,family = gaussian,k=10)
-result$theta
-result$coefficients
-summary(result)
-
-# Or you can try different spline basis
-result <- gplsim(y,X,Z=Z,family = gaussian,bs="tp",k=10)
-result$theta
-result$coefficients
-summary(result)
-
-# to know more about air data
-?air
+plot_si(result)
 }

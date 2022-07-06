@@ -1,15 +1,15 @@
 Package: gplsim
 Type: Package
-Title: Penalized Spline Estimation for Generalized Partially Linear Single-Index Models
-Version: 0.9.0
+Title: Penalized Spline Estimation for GPLSIM
+Version: 0.9.1
 Date: 2021-11-24
-Author: Tianhai Zu, Yan Yu.
-Maintainer: Tianhai Zu <zuti@mail.uc.edu>
+Authors@R: c(
+    person("Tianhai", "Zu", email = "zuti@mail.uc.edu", role = c("aut","trl","cre")),
+    person("Yan", "Yu",  role = "aut"))
 Description: We provides functions that employ penalized spline (P-spline) to estimate generalized 
-             partially linear single index models, which extend the generalized linear 
-             models to include nonlinear effect for some predictors. Please see Yu (2017) at
-             <doi:10.1007/s11222-016-9639-0> and Yu, Yan, and David 
-             Ruppert. (2002) at <doi:10.1198/016214502388618861> for more details.
+             partially linear single index models (GPLSIM), which extend the generalized linear 
+             models to include nonlinear effect for some predictors. Please see Y. (2017) at
+             <doi:10.1007/s11222-016-9639-0> and Y., and R. (2002) at <doi:10.1198/016214502388618861> for more details.
 License: GPL-2
 Encoding: UTF-8
 Depends: R (>= 3.6.0)

@@ -5,7 +5,13 @@
 \title{function dedicated to add simulation standard error bound, in development
 draw the bound to current plot}
 \usage{
-add_sim_bound(data, family = gaussian(), M = M, n = n, true.theta = true.theta)
+add_sim_bound(
+  data,
+  family = gaussian(),
+  M = 200,
+  n = 1000,
+  true.theta = c(1, 1, 1)/sqrt(3)
+)
 }
 \arguments{
 \item{data}{a list of simulated data}

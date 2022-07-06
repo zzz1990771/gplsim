@@ -4,7 +4,7 @@
 \alias{Predict.matrix.tr.smooth}
 \title{prediction method function for the tr smooth class}
 \usage{
-\method{Predict.matrix}{tr.smooth}(object, data)
+Predict.matrix.tr.smooth(object, data)
 }
 \arguments{
 \item{object}{smooth object for gam class}

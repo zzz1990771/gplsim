@@ -106,35 +106,8 @@ si <- function(alpha,y,x,z,opt=TRUE,k=13,smooth_selection,fam,bs="ps", fx=FALSE,
 #' @return ... See GAM object
 #' @examples
 #' # parameter settings
-#' n=1000
+#' n=200
 #' true.theta = c(1, 1, 1)/sqrt(3)
-
-#' # Generating data (binary case)
-#' # This function generates a sin bump model as in Yu et al. (2007).
-#' # You may use your data instead.
-#' data <- generate_data(n,true.theta=true.theta,family="binomial")
-#' y=data$Y       # binary response
-#' X=data$X       # single index term ;
-#' Z=data$Z       # partially linear term ;
-#'
-#' # Fit the generalized partially linear single-index models
-#' result <- gplsim(y,X,Z,family = binomial)
-#'
-#' # Estimation of Theta
-#' result$theta
-#'
-#' # the coefficients of the fitted model. Parametric coefficients are first, followed by coefficients for each spline term in turn.
-#' result$coefficients
-#'
-#' # summary of the fitted model
-#' summary(result)
-#'
-#' #plot the estimated single index function curve
-#' plot.si(result)
-#' #par(new=T)
-#' #plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
-#'
-#'
 #' # Gaussian case
 #' # This function generate a plain sin bump model with gaussian response.
 #' data <- generate_data(n,true.theta=true.theta,family="gaussian")
@@ -149,29 +122,7 @@ si <- function(alpha,y,x,z,opt=TRUE,k=13,smooth_selection,fam,bs="ps", fx=FALSE,
 #'
 #'
 #' #plot the estimated single index function curve
-#' plot.si(result)
-#' #par(new=T)
-#' #plot.si(result,index=Z,xaxt="n", yaxt="n",col="red")
-#'
-#' # A real data example
-#' data(air)
-#' y=air$ozone               # response
-#' X=as.matrix(air[,3:4])    # single index term ;
-#' Z=air[,2]                 # partially linear term ;
-#'
-#' result <- gplsim(y,X,Z=Z,family = gaussian,k=10)
-#' result$theta
-#' result$coefficients
-#' summary(result)
-#'
-#' # Or you can try different spline basis
-#' result <- gplsim(y,X,Z=Z,family = gaussian,bs="tp",k=10)
-#' result$theta
-#' result$coefficients
-#' summary(result)
-#'
-#' # to know more about air data
-#' ?air
+#' plot_si(result)
 #' @export
 gplsim <- function(Y=Y,X=X,Z=Z,family=gaussian(),penalty=TRUE,penalty_type = "L2", scale = -1, smooth_selection = "GCV.Cp",profile = TRUE, bs="ps", user.init=NULL,k=13){
 
@@ -223,23 +174,25 @@ gplsim <- function(Y=Y,X=X,Z=Z,family=gaussian(),penalty=TRUE,penalty_type = "L2
   return(b)
 }
 
-utils::globalVariables(c("yscale"))
+#utils::globalVariables(c("yscale"))
 
 #' Function that plot fitted curve for the unknown univariate function for single index term
 #' 
 #' @param x the gam/gplism fitted object
-#' @param ... add-on arguments
+#' @param family default is gaussian()
+#' @param ylab y label
+#' @param yscale scale of y
+#' @param plot_data controls whether to plot the data as points
 #'
 #' @return NULL single-index plot
-#' @export plot.si
 #' @export
-plot.si <- function(x,...){
+plot_si <- function(x,family=gaussian(),ylab="mean",yscale=NULL,plot_data=FALSE){
   #check the args
-  family=gaussian()
-  plot_data= ifelse(!exists("plot_data"),FALSE,plot_data)
-  ylab= ifelse(!exists("ylab"),"mean",ylab)
+  #family=gaussian()
+  #plot_data= ifelse(!exists("plot_data"),FALSE,plot_data)
+  #ylab= ifelse(!exists("ylab"),"mean",ylab)
   
-
+  #x$family = faussian()
   if(is.null(x$Znames)){
     offset_fit <- family$linkinv((x$linear.predictors))
   }else{
@@ -247,9 +200,9 @@ plot.si <- function(x,...){
   }
 
   UQ = cbind(x$model$a,matrix(offset_fit,ncol=1))
-  if(!exists("yscale")){ylim = range(offset_fit)}else{ylim = yscale}
-  plot(UQ[order(UQ[,1]),],col="blue",type="l",ylim=ylim,lty=1,xlab = "single index",ylab = ylab,...)
-  #if(plot_data){points(UQ[order(UQ[,1]),1],(model_obj$model$y)[order(UQ[,1])],pch=20)}
+  if(is.null(yscale)){ylim = range(offset_fit)}else{ylim = yscale}
+  plot(UQ[order(UQ[,1]),],col="blue",type="l",ylim=ylim,lty=1,xlab = "single index",ylab = ylab)
+  if(plot_data){graphics::points(UQ[order(UQ[,1]),1],(x$model$y)[order(UQ[,1])],pch=20)}
 }
 
 #' Summary function of gplsim object
@@ -327,7 +280,8 @@ print.summary.gplsim <- function(x, digits = max(5, getOption("digits") - 3),
 #' @param true.theta the true coefficients
 #'
 #' @return NULL
-add_sim_bound <- function(data,family = gaussian(),M=M,n=n,true.theta=true.theta){
+#' @export
+add_sim_bound <- function(data,family = gaussian(),M=200,n=1000,true.theta=c(1, 1, 1)/sqrt(3)){
   offset_fit_matrix <- matrix(0, M, n)
   for (i in 1:M){
     y=(data$Y)[[i]]       # continous response
@@ -354,6 +308,7 @@ add_sim_bound <- function(data,family = gaussian(),M=M,n=n,true.theta=true.theta
 #' @param knots knots
 #'
 #' @return tr smooth object
+#' @export
 smooth.construct.tr.smooth.spec<-function(object,data,knots)
   ## a truncated power spline constructor method function
   ## object$p.order = null space dimension
