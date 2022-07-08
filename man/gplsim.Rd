@@ -2,24 +2,42 @@
 % Please edit documentation in R/gplsim.r
 \name{gplsim}
 \alias{gplsim}
+\alias{gplsim.default}
+\alias{gplsim.formula}
 \title{Function to fit generalized partially linear single-index models via penalized splines}
 \usage{
-gplsim(
+gplsim(...)
+
+\method{gplsim}{default}(
   Y = Y,
   X = X,
   Z = Z,
   family = gaussian(),
   penalty = TRUE,
   penalty_type = "L2",
-  scale = -1,
-  smooth_selection = "GCV.Cp",
   profile = TRUE,
   bs = "ps",
   user.init = NULL,
-  k = 13
+  ...
+)
+
+\method{gplsim}{formula}(
+  formula,
+  data,
+  family = gaussian(),
+  penalty = TRUE,
+  penalty_type = "L2",
+  profile = TRUE,
+  bs = "ps",
+  user.init = NULL,
+  ...
 )
 }
 \arguments{
+\item{...}{includes optional arguments user can pass to \code{mgcv::gam} or \code{glm}, such as \code{k}, which is the dimension of the basis of the smooth term and \code{m}, which is the order of the penalty for the smooth term. Others include:
+\code{scale} The optional argument scale is a numeric indicator with a default value set to -1. Any negative value including -1 indicates that the scale of response distribution is unknown, thus need to be estimated. Another option is 0 signaling scale of 1 for Poisson and binomial distribution and unknown for others. Any positive value will be taken as the known scale parameter.
+\code{smooth_selection} The optional argument smooth_selection is another character variable that specifies the criterion used in the selection of a smoothing parameter. The supported criteria include "GCV.Cp","GACV.Cp", "ML","P-ML", "P-REML" and "REML", while the default criterion is "GCV.Cp".}
+
 \item{Y}{Response variable, should be a vector.}
 
 \item{X}{Single index covariates.}
@@ -35,19 +53,23 @@ The default family is \code{gaussian}.}
 
 \item{penalty_type}{The optional argument penalty_type is a character variable, which specifies the type of penalty used in the penalized splines estimation. The default penalty type is {L}_{2} penalty, while {L}_{1} is also supported.}
 
-\item{scale}{The optional argument scale is a numeric indicator with a default value set to -1. Any negative value including -1 indicates that the scale of response distribution is unknown, thus need to be estimated. Another option is 0 signaling scale of 1 for Poisson and binomial distribution and unknown for others. Any positive value will be taken as the known scale parameter.}
-
-\item{smooth_selection}{The optional argument smooth_selection is another character variable that specifies the criterion used in the selection of a smoothing parameter. The supported criteria include "GCV.Cp","GACV.Cp", "ML","P-ML", "P-REML" and "REML", while the default criterion is "GCV.Cp".}
-
 \item{profile}{profile is a logical variable that indicates whether the algorithm with profile likelihood or algorithm with NLS procedure should be used. The default algorithm is set to algorithm with profile likelihood.}
 
 \item{bs}{bs is a character variable that specifies the spline basis in the estimation of unknown univariate function of single index. Default is P-splines.}
 
-\item{user.init}{The user.init is a numeric vector of the same length as the dimensionality of single index predictors. The users can use this argument to pass in any appropriate user-defined initial single-index coefficients based on prior information or domain knowledge. The default value is NULL}
+\item{user.init}{The user.init is a numeric vector of the same length as the dimensionality of single index predictors. The users can use this argument to pass in any appropriate user-defined initial single-index coefficients based on prior information or domain knowledge. The default value is NULL.}
 
-\item{k}{k is the the dimension of the basis used to represent the smooth term. The default is set at 13.}
+\item{formula}{A model formula;}
+
+\item{data}{A data matrix containing the variables in the formula.}
 }
 \value{
+theta  Estimation of Theta
+
+coefficients  the coefficients of the fitted model. Parametric coefficients are first, followed by coefficients for each spline term in turn.
+
+... See GAM object
+
 theta  Estimation of Theta
 
 coefficients  the coefficients of the fitted model. Parametric coefficients are first, followed by coefficients for each spline term in turn.
@@ -58,6 +80,11 @@ coefficients  the coefficients of the fitted model. Parametric coefficients are 
 This function employs penalized spline (P-spline) to estimate generalized
 partially linear single index models, which extend the generalized linear
 models to include nonlinear effect for some predictors.
+
+This function add formula interface to gplsim function
+}
+\details{
+For formula, method, see ?gplsim.formula
 }
 \examples{
 # parameter settings

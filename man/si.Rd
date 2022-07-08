@@ -2,7 +2,7 @@
 % Please edit documentation in R/gplsim.r
 \name{si}
 \alias{si}
-\title{An internal function to optimization and fitting. 
+\title{An internal function to optimization and fitting.
 Don't use it solely.}
 \usage{
 si(
@@ -11,12 +11,12 @@ si(
   x,
   z,
   opt = TRUE,
-  k = 13,
   smooth_selection,
   fam,
   bs = "ps",
   fx = FALSE,
-  scale = scale
+  scale = scale,
+  ...
 )
 }
 \arguments{
@@ -30,8 +30,6 @@ si(
 
 \item{opt}{see ?gplsim}
 
-\item{k}{see ?gplsim}
-
 \item{smooth_selection}{see ?gplsim}
 
 \item{fam}{see ?gplsim}
@@ -41,11 +39,13 @@ si(
 \item{fx}{see ?gplsim}
 
 \item{scale}{see ?gplsim}
+
+\item{...}{includes optional arguments user can pass to \code{mgcv::gam} or \code{glm}, such as \code{k}, which is the dimension of the basis of the smooth term and \code{m}, which is the order of the penalty for the smooth term}
 }
 \value{
 b fitted gam object
 }
 \description{
-An internal function to optimization and fitting. 
+An internal function to optimization and fitting.
 Don't use it solely.
 }
