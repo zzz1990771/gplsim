@@ -9,3 +9,7 @@ This is a hot fix for the function plot.si. It has been changed to plot_si as it
 We now include unit tests and formula methods!
 
 We also added more supports on distributions, such as Gamma.
+
+# GPLSIM version 0.9.3
+
+Allow for large toleration when testing.

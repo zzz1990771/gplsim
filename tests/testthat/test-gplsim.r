@@ -41,7 +41,7 @@ test_that("test the main functions (gplsim) with gaussian case, user init", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 test_that("test the main functions (gplsim) with gaussian case", {
@@ -62,7 +62,7 @@ test_that("test the main functions (gplsim) with gaussian case", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 test_that("test the main functions (gplsim) with gaussian case", {
@@ -83,7 +83,7 @@ test_that("test the main functions (gplsim) with gaussian case", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 
@@ -107,7 +107,7 @@ test_that("test the main functions (gplsim) with gaussian case, profile", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 test_that("test the main functions (gplsim) with gaussian case, profile, missing Z", {
@@ -130,7 +130,7 @@ test_that("test the main functions (gplsim) with gaussian case, profile, missing
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 
@@ -154,7 +154,7 @@ test_that("test the main functions (gplsim) with gaussian case, missing Z", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 test_that("test the main functions (gplsim) with gaussian case, with p<2", {
@@ -194,7 +194,7 @@ test_that("test the main functions (gplsim) with gaussian case, with p<2", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
 
@@ -218,6 +218,6 @@ test_that("test the formula functions (gplsim) with gaussian case, user init", {
   # summary of the fitted model
   est_beta <- summary(result)$p.coeff.sim
 
-  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.1)
+  expect_equal(as.vector(est_beta), true.theta, tolerance = 0.2)
 })
 
